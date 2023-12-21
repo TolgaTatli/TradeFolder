@@ -1,6 +1,6 @@
-# tradingfolder
+# TradeFolder
 
-A new Flutter project.
+#### A new simple, free and open-source Stock-Market Tracker.
 
 ## Getting Started
 
