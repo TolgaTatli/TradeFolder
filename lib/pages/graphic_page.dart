@@ -1,9 +1,21 @@
 // ignore_for_file: unused_import, must_be_immutable, file_names, library_private_types_in_public_api, no_logic_in_create_state
-
+/*
+Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => NewsPage(
+                ticker: crypto,
+              ),
+            ),
+          );
+ */
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:tradingfolder/NewsPage.dart';
 import 'package:tradingfolder/yahoo_finance_data.dart';
 import 'package:yahoofin/yahoofin.dart';
+
+import '../news_api.dart';
 
 class GraphicsPage extends StatefulWidget {
   String chartType;
@@ -46,6 +58,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
   }
 
   Future<void> getChart() async {
+    await getNewsForTicker("GOOGL");
     if (chartType == "1 DAY") {
       data = await priceController.getPriceOneDay(ticker);
     } else if (chartType == "1 MONTH") {
@@ -53,6 +66,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
     } else if (chartType == "1 YEAR") {
       data = await priceController.getPriceOneYear(ticker);
     }
+    print(data.length);
     setState(() {});
   }
 
@@ -211,7 +225,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
                                 )));
                   },
                   child: const Text(
-                    "GÜNLÜK",
+                    "DAILY",
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
@@ -238,7 +252,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
                                 )));
                   },
                   child: const Text(
-                    "AYLIK",
+                    "MONTHLY",
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
@@ -265,7 +279,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
                                 )));
                   },
                   child: const Text(
-                    "YILLIK",
+                    "YEARLY",
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
@@ -275,13 +289,47 @@ class _GraphicsPageState extends State<GraphicsPage> {
             const SizedBox(
               height: 20,
             ),
-            Text(
-              "Anlık Değer: ${data.last} \$",
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  letterSpacing: 2,
-                  fontSize: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Current Value: ${data.last} \$",
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      letterSpacing: 2,
+                      fontSize: 15),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Color( int.parse("#0F0F0F".substring(1, 7), radix: 16) + 0xFF000000)),
+              onPressed: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NewsPage(
+                      ticker: ticker,
+                    ),
+                  ),
+                );
+              },
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.newspaper_outlined, color: Colors.white,),
+                  SizedBox(width: 8,),
+                  Text(
+                    "Related News",
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

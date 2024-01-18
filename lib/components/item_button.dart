@@ -72,7 +72,7 @@ class ItemButton extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  crypto,
+                  crypto.contains("-") ? crypto.split("-").first : crypto,
                   style: TextStyle(
                     color: Color(
                       int.parse("#FFFFFF".substring(1, 7), radix: 16) +

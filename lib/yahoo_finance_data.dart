@@ -15,12 +15,13 @@ class PriceController
       interval: StockInterval.oneMinute,
       period: StockRange.oneDay,
     );
+
     if(chart.chartQuotes == null)
     {
       chart = await yfin.getChartQuotes(
         stockHistory: hist,
         interval: StockInterval.twoMinute,
-        period: StockRange.oneYear,
+        period: StockRange.oneDay,
       );
     }
 
@@ -40,7 +41,6 @@ class PriceController
         interval: StockInterval.fifteenMinute,
         period: StockRange.oneDay,
       );
-
     }
     if(chart.chartQuotes == null)
     {
@@ -49,7 +49,6 @@ class PriceController
         interval: StockInterval.thirtyMinute,
         period: StockRange.oneDay,
       );
-
     }
 
     if(chart.chartQuotes == null)
@@ -59,7 +58,6 @@ class PriceController
         interval: StockInterval.sixtyMinute,
         period: StockRange.oneDay,
       );
-
     }
 
     if(chart.chartQuotes == null)
@@ -69,7 +67,6 @@ class PriceController
         interval: StockInterval.ninetyMinute,
         period: StockRange.oneDay,
       );
-
     }
 
 
@@ -154,6 +151,7 @@ class PriceController
         interval: StockInterval.fiveDay,
         period: StockRange.oneYear,
       );
+      print("5 G");
     }
 
     if(chart.chartQuotes == null)
@@ -163,6 +161,7 @@ class PriceController
         interval: StockInterval.oneWeek,
         period: StockRange.oneYear,
       );
+      print("7 G");
     }
 
     if(chart.chartQuotes == null)
@@ -172,7 +171,7 @@ class PriceController
         interval: StockInterval.oneMonth,
         period: StockRange.oneYear,
       );
-
+      print("30 G");
     }
     if(chart.chartQuotes == null)
     {
@@ -181,6 +180,7 @@ class PriceController
         interval: StockInterval.threeMonth,
         period: StockRange.oneYear,
       );
+      print("90 G");
 
     }
 

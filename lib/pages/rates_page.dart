@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tradingfolder/components/prices_page.dart';
 import 'package:tradingfolder/constants/tickers_list.dart';
+import 'package:tradingfolder/pages/graphic_page.dart';
 
 class RatesPage extends StatefulWidget {
   const RatesPage({super.key});
@@ -66,7 +67,7 @@ class _RatesPageState extends State<RatesPage> {
                       ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            list = cryptoList; // Eklenen kısım
+                            list = cryptoList;
                             type = "Cryptos";
                           });
                         },
@@ -99,6 +100,7 @@ class _RatesPageState extends State<RatesPage> {
                     child: SizedBox(
                       height: 50,
                       child: TextField(
+                        style: TextStyle(color: Colors.grey[500]),
                         decoration: InputDecoration(
                           hintStyle: TextStyle(color: Colors.grey[500]),
                           hintText: "Search in market",
@@ -110,13 +112,25 @@ class _RatesPageState extends State<RatesPage> {
                             borderRadius: BorderRadius.all(Radius.circular(16)),
                           ),
                         ),
+                        onSubmitted: (value)
+                        {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => GraphicsPage(
+                                ticker: value,
+                                chartType: "1 DAY",
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),
                   Expanded(
                     child: PricesPage(
                       cryptoList: list,
-                      logos: logos, // Eklenen kısım
+                      logos: logos,
                     ),
                   ),
                 ],
