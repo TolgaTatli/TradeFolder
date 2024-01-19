@@ -1,10 +1,10 @@
 flutter_native_splash:
-  background_image: assets/peakpx.jpg
+  background_image: assets/peakpx.png
   image: assets/tradefoldericon.png
 
 
   android_12:
-    background_image: assets/peakpx.jpg
+    background_image: assets/peakpx.png
     image: assets/tradefoldericon.png
   
   web: false

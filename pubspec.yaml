@@ -46,6 +46,16 @@ dependencies:
   url_launcher: ^6.2.3
   flutter_native_splash: ^2.3.2
 
+flutter_native_splash:
+  background_image: assets/peakpx.png
+  image: assets/tradefoldericon.png
+
+
+  android_12:
+    background_image: assets/peakpx.png
+    image: assets/tradefoldericon.png
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
