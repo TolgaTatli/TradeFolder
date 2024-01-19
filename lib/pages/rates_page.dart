@@ -14,7 +14,7 @@ class RatesPage extends StatefulWidget {
 
 class _RatesPageState extends State<RatesPage> {
   List<String> list = [];
-  String type = "";
+  String type = "Stocks";
 
   @override
   void initState() {
@@ -35,14 +35,19 @@ class _RatesPageState extends State<RatesPage> {
             padding: const EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width,
             color: Colors.black,
+            height: MediaQuery.of(context).size.height,
+
             child: SafeArea(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       ElevatedButton(
+
                         onPressed: () {
                           setState(() {
                             list = tickersList;
@@ -59,7 +64,7 @@ class _RatesPageState extends State<RatesPage> {
                           style: TextStyle(
                             color:
                                 type == "Stocks" ? Colors.white : Colors.grey,
-                            fontSize: type == "Stocks" ? 45 : 30,
+                            fontSize: type == "Stocks" ? 40 : 26,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -74,17 +79,42 @@ class _RatesPageState extends State<RatesPage> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.transparent,
                           shadowColor: Colors.transparent,
+
                         ),
                         child: Text(
                           "Cryptos",
                           style: TextStyle(
                             color:
                                 type == "Cryptos" ? Colors.white : Colors.grey,
-                            fontSize: type == "Cryptos" ? 45 : 30,
+                            fontSize: type == "Cryptos" ? 40 : 26,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            list = cryptoList;
+                            type = "News";
+
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          padding: const EdgeInsets.symmetric(horizontal: 0)
+                        ),
+                        child: Text(
+                          "News",
+                          style: TextStyle(
+                            color:
+                            type == "News" ? Colors.white : Colors.grey,
+                            fontSize: type == "News" ? 40 : 26,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+
                     ],
                   ),
                   Text(
@@ -102,18 +132,17 @@ class _RatesPageState extends State<RatesPage> {
                       child: TextField(
                         style: TextStyle(color: Colors.grey[500]),
                         decoration: InputDecoration(
-                          hintStyle: TextStyle(color: Colors.grey[500]),
+                          hintStyle: TextStyle(color: Colors.grey[900],letterSpacing: 2,fontStyle: FontStyle.italic,fontWeight: FontWeight.bold),
                           hintText: "Search in market",
-                          fillColor: Colors.grey[800],
+                          fillColor: Colors.grey.shade800,
                           filled: true,
                           border: const OutlineInputBorder(
                             borderSide:
                                 BorderSide(width: 1, style: BorderStyle.none),
-                            borderRadius: BorderRadius.all(Radius.circular(16)),
+                            borderRadius: BorderRadius.all(Radius.circular(100)),
                           ),
                         ),
-                        onSubmitted: (value)
-                        {
+                        onSubmitted: (value) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(

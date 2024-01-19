@@ -11,7 +11,7 @@ Navigator.push(
  */
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:tradingfolder/NewsPage.dart';
+import 'package:tradingfolder/news_page.dart';
 import 'package:tradingfolder/yahoo_finance_data.dart';
 import 'package:yahoofin/yahoofin.dart';
 
@@ -66,7 +66,6 @@ class _GraphicsPageState extends State<GraphicsPage> {
     } else if (chartType == "1 YEAR") {
       data = await priceController.getPriceOneYear(ticker);
     }
-    print(data.length);
     setState(() {});
   }
 
@@ -75,7 +74,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          ticker,
+          ticker.toUpperCase(),
           style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -307,7 +306,9 @@ class _GraphicsPageState extends State<GraphicsPage> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Color( int.parse("#0F0F0F".substring(1, 7), radix: 16) + 0xFF000000)),
+                  backgroundColor: Color(
+                      int.parse("#0F0F0F".substring(1, 7), radix: 16) +
+                          0xFF000000)),
               onPressed: () async {
                 Navigator.push(
                   context,
@@ -321,8 +322,13 @@ class _GraphicsPageState extends State<GraphicsPage> {
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.newspaper_outlined, color: Colors.white,),
-                  SizedBox(width: 8,),
+                  Icon(
+                    Icons.newspaper_outlined,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
                   Text(
                     "Related News",
                     style: TextStyle(

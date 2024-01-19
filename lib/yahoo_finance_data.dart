@@ -2,9 +2,7 @@
 
 import 'package:yahoofin/yahoofin.dart';
 
-class PriceController
-{
-
+class PriceController {
   Future<List<double>> getPriceOneDay(String ticker) async {
     var yfin = YahooFin();
 
@@ -16,8 +14,7 @@ class PriceController
       period: StockRange.oneDay,
     );
 
-    if(chart.chartQuotes == null)
-    {
+    if (chart.chartQuotes == null) {
       chart = await yfin.getChartQuotes(
         stockHistory: hist,
         interval: StockInterval.twoMinute,
@@ -25,8 +22,7 @@ class PriceController
       );
     }
 
-    if(chart.chartQuotes == null)
-    {
+    if (chart.chartQuotes == null) {
       chart = await yfin.getChartQuotes(
         stockHistory: hist,
         interval: StockInterval.fiveMinute,
@@ -34,16 +30,14 @@ class PriceController
       );
     }
 
-    if(chart.chartQuotes == null)
-    {
+    if (chart.chartQuotes == null) {
       chart = await yfin.getChartQuotes(
         stockHistory: hist,
         interval: StockInterval.fifteenMinute,
         period: StockRange.oneDay,
       );
     }
-    if(chart.chartQuotes == null)
-    {
+    if (chart.chartQuotes == null) {
       chart = await yfin.getChartQuotes(
         stockHistory: hist,
         interval: StockInterval.thirtyMinute,
@@ -51,8 +45,7 @@ class PriceController
       );
     }
 
-    if(chart.chartQuotes == null)
-    {
+    if (chart.chartQuotes == null) {
       chart = await yfin.getChartQuotes(
         stockHistory: hist,
         interval: StockInterval.sixtyMinute,
@@ -60,8 +53,7 @@ class PriceController
       );
     }
 
-    if(chart.chartQuotes == null)
-    {
+    if (chart.chartQuotes == null) {
       chart = await yfin.getChartQuotes(
         stockHistory: hist,
         interval: StockInterval.ninetyMinute,
@@ -69,8 +61,9 @@ class PriceController
       );
     }
 
-
-    List<double> data = chart.chartQuotes!.close!.map((value) => double.parse(value.toStringAsFixed(5))).toList();
+    List<double> data = chart.chartQuotes!.close!
+        .map((value) => double.parse(value.toStringAsFixed(2)))
+        .toList();
     return data;
   }
 
@@ -84,8 +77,7 @@ class PriceController
       interval: StockInterval.fifteenMinute,
       period: StockRange.oneMonth,
     );
-    if(chart.chartQuotes == null)
-    {
+    if (chart.chartQuotes == null) {
       chart = await yfin.getChartQuotes(
         stockHistory: hist,
         interval: StockInterval.thirtyMinute,
@@ -93,8 +85,7 @@ class PriceController
       );
     }
 
-    if(chart.chartQuotes == null)
-    {
+    if (chart.chartQuotes == null) {
       chart = await yfin.getChartQuotes(
         stockHistory: hist,
         interval: StockInterval.sixtyMinute,
@@ -102,26 +93,22 @@ class PriceController
       );
     }
 
-    if(chart.chartQuotes == null)
-    {
+    if (chart.chartQuotes == null) {
       chart = await yfin.getChartQuotes(
         stockHistory: hist,
         interval: StockInterval.ninetyMinute,
         period: StockRange.oneMonth,
       );
-
     }
-    if(chart.chartQuotes == null)
-    {
+    if (chart.chartQuotes == null) {
       chart = await yfin.getChartQuotes(
         stockHistory: hist,
         interval: StockInterval.oneDay,
         period: StockRange.oneMonth,
       );
-
     }
 
-    if(chart.chartQuotes == null) {
+    if (chart.chartQuotes == null) {
       chart = await yfin.getChartQuotes(
         stockHistory: hist,
         interval: StockInterval.fiveDay,
@@ -129,7 +116,9 @@ class PriceController
       );
     }
 
-    List<double> data = chart.chartQuotes!.close!.map((value) => double.parse(value.toStringAsFixed(5))).toList();
+    List<double> data = chart.chartQuotes!.close!
+        .map((value) => double.parse(value.toStringAsFixed(3)))
+        .toList();
     return data;
   }
 
@@ -144,48 +133,40 @@ class PriceController
       period: StockRange.oneYear,
     );
 
-    if(chart.chartQuotes == null)
-    {
+    if (chart.chartQuotes == null) {
       chart = await yfin.getChartQuotes(
         stockHistory: hist,
         interval: StockInterval.fiveDay,
         period: StockRange.oneYear,
       );
-      print("5 G");
     }
 
-    if(chart.chartQuotes == null)
-    {
+    if (chart.chartQuotes == null) {
       chart = await yfin.getChartQuotes(
         stockHistory: hist,
         interval: StockInterval.oneWeek,
         period: StockRange.oneYear,
       );
-      print("7 G");
     }
 
-    if(chart.chartQuotes == null)
-    {
+    if (chart.chartQuotes == null) {
       chart = await yfin.getChartQuotes(
         stockHistory: hist,
         interval: StockInterval.oneMonth,
         period: StockRange.oneYear,
       );
-      print("30 G");
     }
-    if(chart.chartQuotes == null)
-    {
+    if (chart.chartQuotes == null) {
       chart = await yfin.getChartQuotes(
         stockHistory: hist,
         interval: StockInterval.threeMonth,
         period: StockRange.oneYear,
       );
-      print("90 G");
-
     }
 
-    List<double> data = chart.chartQuotes!.close!.map((value) => double.parse(value.toStringAsFixed(5))).toList();
+    List<double> data = chart.chartQuotes!.close!
+        .map((value) => double.parse(value.toStringAsFixed(3)))
+        .toList();
     return data;
   }
-
 }

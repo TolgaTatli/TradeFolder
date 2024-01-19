@@ -8,7 +8,7 @@ Future<Map<String, List<dynamic>>?> getNewsForTicker(String ticker) async {
   String apiKey = '9e0ae5b6be71463ab2a5c545696be2e5';
 
   // News API endpoint'i
-  String apiUrl = 'https://newsapi.org/v2/everything?q=${ticker}&apiKey=9e0ae5b6be71463ab2a5c545696be2e5';
+  String apiUrl = 'https://newsapi.org/v2/everything?q=$ticker&apiKey=$apiKey';
 
   // News API'ye GET isteği gönderme
   var response = await http.get(Uri.parse(apiUrl));
@@ -31,7 +31,6 @@ Future<Map<String, List<dynamic>>?> getNewsForTicker(String ticker) async {
 
     return newsData;
   } else {
-    print(response.body);
     // Hata durumunda null döndürme veya hata yönetimi yapma
     return null;
   }
