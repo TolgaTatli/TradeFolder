@@ -41,7 +41,8 @@ class ItemButton extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => GraphicsPage(
                 ticker: crypto,
-                chartType: "1 DAY",
+                
+                chartType: "1 DAY", isNewsPageOpened: false,
               ),
             ),
           );

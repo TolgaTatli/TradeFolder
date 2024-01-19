@@ -1,39 +1,29 @@
-// ignore_for_file: unused_import, must_be_immutable, file_names, library_private_types_in_public_api, no_logic_in_create_state
-/*
-Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => NewsPage(
-                ticker: crypto,
-              ),
-            ),
-          );
- */
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:tradingfolder/news_page.dart';
 import 'package:tradingfolder/yahoo_finance_data.dart';
 import 'package:yahoofin/yahoofin.dart';
-
 import '../news_api.dart';
 
 class GraphicsPage extends StatefulWidget {
-  String chartType;
-  String ticker;
-  GraphicsPage({super.key, required this.chartType, required this.ticker});
+  final String chartType;
+  final String ticker;
+  final bool isNewsPageOpened;
+  const GraphicsPage({super.key, required this.chartType, required this.ticker,required this.isNewsPageOpened,});
 
   @override
   _GraphicsPageState createState() =>
-      _GraphicsPageState(ticker: ticker, chartType: chartType);
+      _GraphicsPageState(ticker: ticker, chartType: chartType,isNewsPageOpened:isNewsPageOpened);
 }
 
 class _GraphicsPageState extends State<GraphicsPage> {
   String chartType;
   String ticker;
+  bool isNewsPageOpened;
   List<String> timeLabels = [];
   PriceController priceController = PriceController();
 
-  _GraphicsPageState({required this.chartType, required this.ticker}) {
+  _GraphicsPageState({required this.chartType, required this.ticker, required this.isNewsPageOpened}) {
     DateTime now = DateTime.now();
     for (int i = data.length - 1; i >= 0; i--) {
       DateTime time = now.subtract(Duration(minutes: (data.length - 1 - i)));
@@ -191,9 +181,8 @@ class _GraphicsPageState extends State<GraphicsPage> {
                         ),
                       ),
                       dotData: const FlDotData(show: false),
-                      // Noktaları gizle
                       isStrokeCapRound:
-                          true, // Noktaları daha düzgün göstermek için
+                          true,
                     ),
                   ],
                 ),
@@ -220,6 +209,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
                         MaterialPageRoute(
                             builder: (context) => GraphicsPage(
                                   ticker: widget.ticker,
+                              isNewsPageOpened: isNewsPageOpened,
                                   chartType: "1 DAY",
                                 )));
                   },
@@ -247,7 +237,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
                         MaterialPageRoute(
                             builder: (context) => GraphicsPage(
                                   ticker: widget.ticker,
-                                  chartType: "1 MONTH",
+                                  chartType: "1 MONTH", isNewsPageOpened: isNewsPageOpened,
                                 )));
                   },
                   child: const Text(
@@ -274,6 +264,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
                         MaterialPageRoute(
                             builder: (context) => GraphicsPage(
                                   ticker: widget.ticker,
+                                  isNewsPageOpened: isNewsPageOpened,
                                   chartType: "1 YEAR",
                                 )));
                   },
@@ -314,7 +305,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => NewsPage(
-                      ticker: ticker,
+                      ticker: ticker, isNewsPageOpened: isNewsPageOpened,
                     ),
                   ),
                 );
