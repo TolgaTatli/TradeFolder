@@ -170,7 +170,7 @@ class _RatesPageState extends State<RatesPage> {
                       logos: logos,
                     )
                         : NewsPage(
-                      ticker: "Stock Market",
+                      ticker: "invest stock market",
                       isNewsPageOpened: true,
                     ),
                   ),

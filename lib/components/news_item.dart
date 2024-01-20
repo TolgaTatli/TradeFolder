@@ -34,11 +34,10 @@ class NewsItem extends StatelessWidget {
         _launchURL(url);
       },
       child: Card(
-        margin: const EdgeInsets.all(8.0),
+        margin: const EdgeInsets.all(1.0),
         color: Colors.black87,
         child: Row(
-
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
               width: 100,
@@ -52,7 +51,7 @@ class NewsItem extends StatelessWidget {
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 9,vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 2),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -67,7 +66,7 @@ class NewsItem extends StatelessWidget {
                     const SizedBox(height: 8),
                     Text(
                       truncatedContent,
-                      style: const TextStyle(fontSize: 13,color: Colors.grey),
+                      style: TextStyle(fontSize: 13,color: Colors.grey.shade400),
                     ),
                   ],
                 ),

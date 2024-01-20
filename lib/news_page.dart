@@ -7,7 +7,7 @@ class NewsPage extends StatefulWidget {
   final String ticker;
   final bool isNewsPageOpened;
 
-  const NewsPage({Key? key, required this.ticker, required this.isNewsPageOpened}) : super(key: key);
+  const NewsPage({super.key, required this.ticker, required this.isNewsPageOpened});
 
   @override
   State<NewsPage> createState() {
@@ -53,18 +53,22 @@ class _NewsPageState extends State<NewsPage> {
       backgroundColor: Colors.black,
       body: newsData != null
           ? ListView.builder(
+        padding: const EdgeInsets.only(top:16),
         itemCount: newsData!['headlines']!.length,
         itemBuilder: (context, index) {
+          bool hasImage = newsData!['images']![index] != null;
+          if (!hasImage) {
+            return const SizedBox.shrink(); // This returns an empty widget
+          }
           return Container(
-            margin: const EdgeInsets.symmetric(vertical: 5.4,),
-            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 1),
+            margin: const EdgeInsets.symmetric(vertical: 8.4,),
+            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 1),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(1.1),
+              border: Border.all(color: Colors.grey.shade700,width: 1.5),
+              borderRadius: BorderRadius.circular(4),
             ),
             child: NewsItem(
-              image: newsData!['images']![index] ??
-                  "https://www.shutterstock.com/image-photo/dark-concrete-wall-floor-background-600nw-1937061217.jpg",
+              image: newsData!['images']![index],
               headline: newsData!['headlines']![index],
               content: newsData!['contents']![index],
               url: newsData!['links']![index],
