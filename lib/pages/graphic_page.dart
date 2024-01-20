@@ -9,16 +9,20 @@ class GraphicsPage extends StatefulWidget {
   final String chartType;
   final String ticker;
   final bool isNewsPageOpened;
+
   const GraphicsPage({
-    super.key,
+    Key? key,
     required this.chartType,
     required this.ticker,
     required this.isNewsPageOpened,
-  });
+  }) : super(key: key);
 
   @override
   _GraphicsPageState createState() => _GraphicsPageState(
-      ticker: ticker, chartType: chartType, isNewsPageOpened: isNewsPageOpened);
+    ticker: ticker,
+    chartType: chartType,
+    isNewsPageOpened: isNewsPageOpened,
+  );
 }
 
 class _GraphicsPageState extends State<GraphicsPage> {
@@ -28,10 +32,11 @@ class _GraphicsPageState extends State<GraphicsPage> {
   List<String> timeLabels = [];
   PriceController priceController = PriceController();
 
-  _GraphicsPageState(
-      {required this.chartType,
-      required this.ticker,
-      required this.isNewsPageOpened}) {
+  _GraphicsPageState({
+    required this.chartType,
+    required this.ticker,
+    required this.isNewsPageOpened,
+  }) {
     DateTime now = DateTime.now();
     for (int i = data.length - 1; i >= 0; i--) {
       DateTime time = now.subtract(Duration(minutes: (data.length - 1 - i)));
@@ -41,6 +46,8 @@ class _GraphicsPageState extends State<GraphicsPage> {
   }
 
   List<double> data = [0];
+  List<double> maxPrice = [0];
+  List<double> minPrice= [0];
 
   List<Color> gradientColors = [
     Color(int.parse("#27374D".substring(1, 7), radix: 16) + 0xFF000000),
@@ -48,6 +55,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
     Color(int.parse("#9DB2BF".substring(1, 7), radix: 16) + 0xFF000000),
     Color(int.parse("#DDE6ED".substring(1, 7), radix: 16) + 0xFF000000),
   ];
+
   @override
   void initState() {
     super.initState();
@@ -59,9 +67,16 @@ class _GraphicsPageState extends State<GraphicsPage> {
     await getNewsForTicker("GOOGL");
     if (chartType == "1 DAY") {
       data = await priceController.getPriceOneDay(ticker);
+      maxPrice = await priceController.getMaxOneDay(ticker);
+      minPrice = await priceController.getMinOneDay(ticker);
+      print(maxPrice);
     } else if (chartType == "1 MONTH") {
       data = await priceController.getPriceOneMonth(ticker);
+      maxPrice = await priceController.getMaxOneMonth(ticker);
+      minPrice = await priceController.getMinOneMonth(ticker);
     } else if (chartType == "1 YEAR") {
+      maxPrice = await priceController.getMaxOneYear(ticker);
+      minPrice = await priceController.getMinOneYear(ticker);
       data = await priceController.getPriceOneYear(ticker);
     }
     setState(() {});
@@ -93,14 +108,13 @@ class _GraphicsPageState extends State<GraphicsPage> {
       ),
       body: Container(
         padding:
-            const EdgeInsets.only(top: 25, left: 10, right: 10, bottom: 120),
+        const EdgeInsets.only(top: 25, left: 10, right: 10, bottom: 120),
         color: Colors.black87,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
               child: LineChart(
-
                 LineChartData(
                   backgroundColor: Colors.black38,
                   lineTouchData: const LineTouchData(),
@@ -125,16 +139,18 @@ class _GraphicsPageState extends State<GraphicsPage> {
                   titlesData: FlTitlesData(
                     show: true,
                     rightTitles: const AxisTitles(
-                        sideTitles: SideTitles(
-                      showTitles: false,
-                    )),
+                      sideTitles: SideTitles(
+                        showTitles: false,
+                      ),
+                    ),
                     leftTitles: const AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: false,
                       ),
                     ),
                     topTitles: const AxisTitles(
-                        sideTitles: SideTitles(showTitles: false)),
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(
                         getTitlesWidget: (value, _) {
@@ -148,8 +164,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
                               ),
                             );
                           }
-                          return const SizedBox
-                              .shrink(); // boş bir widget döndür
+                          return const SizedBox.shrink();
                         },
                         showTitles: false,
                       ),
@@ -172,7 +187,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
                     LineChartBarData(
                       spots: List.generate(
                         data.length,
-                        (index) =>
+                            (index) =>
                             FlSpot(index.toDouble(), data[index].toDouble()),
                       ),
                       isCurved: true,
@@ -198,32 +213,35 @@ class _GraphicsPageState extends State<GraphicsPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)
-
-                      ),
-                      backgroundColor: chartType == "1 DAY"
-                          ? Color(
-                              int.parse("#0F0F0F".substring(1, 7), radix: 16) +
-                                  0xFF000000)
-                          : Colors.black12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    backgroundColor: chartType == "1 DAY"
+                        ? Color(
+                        int.parse("#0F0F0F".substring(1, 7), radix: 16) +
+                            0xFF000000)
+                        : Colors.black12,
+                  ),
                   onPressed: () async {
                     Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => GraphicsPage(
-                                  ticker: widget.ticker,
-                                  isNewsPageOpened: isNewsPageOpened,
-                                  chartType: "1 DAY",
-                                )));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GraphicsPage(
+                          ticker: widget.ticker,
+                          isNewsPageOpened: isNewsPageOpened,
+                          chartType: "1 DAY",
+                        ),
+                      ),
+                    );
                   },
                   child: const Text(
                     "DAILY",
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -232,28 +250,32 @@ class _GraphicsPageState extends State<GraphicsPage> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)
+                      borderRadius: BorderRadius.circular(30),
                     ),
-
-                      backgroundColor: chartType == "1 MONTH"
-                          ? Color(
-                              int.parse("#0F0F0F".substring(1, 7), radix: 16) +
-                                  0xFF000000)
-                          : Colors.black12),
+                    backgroundColor: chartType == "1 MONTH"
+                        ? Color(
+                        int.parse("#0F0F0F".substring(1, 7), radix: 16) +
+                            0xFF000000)
+                        : Colors.black12,
+                  ),
                   onPressed: () async {
                     Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => GraphicsPage(
-                                  ticker: widget.ticker,
-                                  chartType: "1 MONTH",
-                                  isNewsPageOpened: isNewsPageOpened,
-                                )));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GraphicsPage(
+                          ticker: widget.ticker,
+                          chartType: "1 MONTH",
+                          isNewsPageOpened: isNewsPageOpened,
+                        ),
+                      ),
+                    );
                   },
                   child: const Text(
                     "MONTHLY",
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -261,28 +283,33 @@ class _GraphicsPageState extends State<GraphicsPage> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)
-                      ),
-                      backgroundColor: chartType == "1 YEAR"
-                          ? Color(
-                              int.parse("#0F0F0F".substring(1, 7), radix: 16) +
-                                  0xFF000000)
-                          : Colors.black12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    backgroundColor: chartType == "1 YEAR"
+                        ? Color(
+                        int.parse("#0F0F0F".substring(1, 7), radix: 16) +
+                            0xFF000000)
+                        : Colors.black12,
+                  ),
                   onPressed: () async {
                     Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => GraphicsPage(
-                                  ticker: widget.ticker,
-                                  isNewsPageOpened: isNewsPageOpened,
-                                  chartType: "1 YEAR",
-                                )));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GraphicsPage(
+                          ticker: widget.ticker,
+                          isNewsPageOpened: isNewsPageOpened,
+                          chartType: "1 YEAR",
+                        ),
+                      ),
+                    );
                   },
                   child: const Text(
                     "YEARLY",
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
@@ -296,10 +323,39 @@ class _GraphicsPageState extends State<GraphicsPage> {
                 Text(
                   "CURRENT: ${data.last} \$",
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      letterSpacing: 2,
-                      fontSize: 20),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 2,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "MAX: ${maxPrice.last} \$",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 2,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "MIN: ${minPrice.last} \$",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 2,
+                    fontSize: 20,
+                  ),
                 ),
               ],
             ),
@@ -332,7 +388,9 @@ class _GraphicsPageState extends State<GraphicsPage> {
                   Text(
                     "RELATED NEWS",
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
@@ -341,7 +399,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
         ),
       ),
       backgroundColor:
-          Color(int.parse("#232D3F".substring(1, 7), radix: 16) + 0xFF000000),
+      Color(int.parse("#232D3F".substring(1, 7), radix: 16) + 0xFF000000),
     );
   }
 }
