@@ -9,11 +9,16 @@ class GraphicsPage extends StatefulWidget {
   final String chartType;
   final String ticker;
   final bool isNewsPageOpened;
-  const GraphicsPage({super.key, required this.chartType, required this.ticker,required this.isNewsPageOpened,});
+  const GraphicsPage({
+    super.key,
+    required this.chartType,
+    required this.ticker,
+    required this.isNewsPageOpened,
+  });
 
   @override
-  _GraphicsPageState createState() =>
-      _GraphicsPageState(ticker: ticker, chartType: chartType,isNewsPageOpened:isNewsPageOpened);
+  _GraphicsPageState createState() => _GraphicsPageState(
+      ticker: ticker, chartType: chartType, isNewsPageOpened: isNewsPageOpened);
 }
 
 class _GraphicsPageState extends State<GraphicsPage> {
@@ -23,7 +28,10 @@ class _GraphicsPageState extends State<GraphicsPage> {
   List<String> timeLabels = [];
   PriceController priceController = PriceController();
 
-  _GraphicsPageState({required this.chartType, required this.ticker, required this.isNewsPageOpened}) {
+  _GraphicsPageState(
+      {required this.chartType,
+      required this.ticker,
+      required this.isNewsPageOpened}) {
     DateTime now = DateTime.now();
     for (int i = data.length - 1; i >= 0; i--) {
       DateTime time = now.subtract(Duration(minutes: (data.length - 1 - i)));
@@ -72,8 +80,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
           ),
         ),
         centerTitle: true,
-        backgroundColor:
-            Color(int.parse("#040D12".substring(1, 7), radix: 16) + 0xFF000000),
+        backgroundColor: Colors.black,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -85,18 +92,17 @@ class _GraphicsPageState extends State<GraphicsPage> {
         ),
       ),
       body: Container(
-        padding: const EdgeInsets.all(16.0),
-        color:
-            Color(int.parse("#232D3F".substring(1, 7), radix: 16) + 0xFF000000),
+        padding:
+            const EdgeInsets.only(top: 25, left: 10, right: 10, bottom: 120),
+        color: Colors.black87,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
               child: LineChart(
+
                 LineChartData(
-                  backgroundColor: Color(
-                      int.parse("#0F0F0F".substring(1, 7), radix: 16) +
-                          0xFF000000),
+                  backgroundColor: Colors.black38,
                   lineTouchData: const LineTouchData(),
                   gridData: FlGridData(
                     show: true,
@@ -152,7 +158,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
                   borderData: FlBorderData(
                     show: true,
                     border: Border.all(
-                      color: Colors.black,
+                      color: Colors.grey.shade800,
                       width: 1,
                     ),
                   ),
@@ -169,7 +175,6 @@ class _GraphicsPageState extends State<GraphicsPage> {
                         (index) =>
                             FlSpot(index.toDouble(), data[index].toDouble()),
                       ),
-
                       isCurved: true,
                       color: Colors.grey,
                       belowBarData: BarAreaData(
@@ -181,8 +186,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
                         ),
                       ),
                       dotData: const FlDotData(show: false),
-                      isStrokeCapRound:
-                          true,
+                      isStrokeCapRound: true,
                     ),
                   ],
                 ),
@@ -194,22 +198,25 @@ class _GraphicsPageState extends State<GraphicsPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)
+
+                      ),
                       backgroundColor: chartType == "1 DAY"
                           ? Color(
                               int.parse("#0F0F0F".substring(1, 7), radix: 16) +
                                   0xFF000000)
-                          : Color(
-                              int.parse("#005B41".substring(1, 7), radix: 16) +
-                                  0xFF000000)),
+                          : Colors.black12),
                   onPressed: () async {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => GraphicsPage(
                                   ticker: widget.ticker,
-                              isNewsPageOpened: isNewsPageOpened,
+                                  isNewsPageOpened: isNewsPageOpened,
                                   chartType: "1 DAY",
                                 )));
                   },
@@ -224,20 +231,23 @@ class _GraphicsPageState extends State<GraphicsPage> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)
+                    ),
+
                       backgroundColor: chartType == "1 MONTH"
                           ? Color(
                               int.parse("#0F0F0F".substring(1, 7), radix: 16) +
                                   0xFF000000)
-                          : Color(
-                              int.parse("#005B41".substring(1, 7), radix: 16) +
-                                  0xFF000000)),
+                          : Colors.black12),
                   onPressed: () async {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => GraphicsPage(
                                   ticker: widget.ticker,
-                                  chartType: "1 MONTH", isNewsPageOpened: isNewsPageOpened,
+                                  chartType: "1 MONTH",
+                                  isNewsPageOpened: isNewsPageOpened,
                                 )));
                   },
                   child: const Text(
@@ -251,13 +261,14 @@ class _GraphicsPageState extends State<GraphicsPage> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)
+                      ),
                       backgroundColor: chartType == "1 YEAR"
                           ? Color(
                               int.parse("#0F0F0F".substring(1, 7), radix: 16) +
                                   0xFF000000)
-                          : Color(
-                              int.parse("#005B41".substring(1, 7), radix: 16) +
-                                  0xFF000000)),
+                          : Colors.black12),
                   onPressed: () async {
                     Navigator.pushReplacement(
                         context,
@@ -283,12 +294,12 @@ class _GraphicsPageState extends State<GraphicsPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Current Value: ${data.last} \$",
+                  "CURRENT: ${data.last} \$",
                   style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                       letterSpacing: 2,
-                      fontSize: 15),
+                      fontSize: 20),
                 ),
               ],
             ),
@@ -296,16 +307,14 @@ class _GraphicsPageState extends State<GraphicsPage> {
               height: 20,
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(
-                      int.parse("#0F0F0F".substring(1, 7), radix: 16) +
-                          0xFF000000)),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               onPressed: () async {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => NewsPage(
-                      ticker: ticker, isNewsPageOpened: isNewsPageOpened,
+                      ticker: ticker,
+                      isNewsPageOpened: isNewsPageOpened,
                     ),
                   ),
                 );
@@ -318,10 +327,10 @@ class _GraphicsPageState extends State<GraphicsPage> {
                     color: Colors.white,
                   ),
                   SizedBox(
-                    width: 8,
+                    width: 12,
                   ),
                   Text(
-                    "Related News",
+                    "RELATED NEWS",
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
