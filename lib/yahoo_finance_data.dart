@@ -232,6 +232,7 @@ class PriceController {
     List<double> data = chart.chartQuotes!.low!
         .map((value) => double.parse(value.toStringAsFixed(2)))
         .toList();
+    data.sort();
     return data;
   }
 
@@ -287,6 +288,7 @@ class PriceController {
     List<double> data = chart.chartQuotes!.low!
         .map((value) => double.parse(value.toStringAsFixed(3)))
         .toList();
+    data.sort();
     return data;
   }
 
@@ -335,6 +337,7 @@ class PriceController {
     List<double> data = chart.chartQuotes!.low!
         .map((value) => double.parse(value.toStringAsFixed(3)))
         .toList();
+    data.sort();
     return data;
   }
 
@@ -399,6 +402,7 @@ class PriceController {
     List<double> data = chart.chartQuotes!.high!
         .map((value) => double.parse(value.toStringAsFixed(2)))
         .toList();
+    data.sort();
     return data;
   }
 
@@ -454,6 +458,7 @@ class PriceController {
     List<double> data = chart.chartQuotes!.high!
         .map((value) => double.parse(value.toStringAsFixed(3)))
         .toList();
+    data.sort();
     return data;
   }
 
@@ -502,6 +507,7 @@ class PriceController {
     List<double> data = chart.chartQuotes!.high!
         .map((value) => double.parse(value.toStringAsFixed(3)))
         .toList();
+    data.sort();
     return data;
   }
 }

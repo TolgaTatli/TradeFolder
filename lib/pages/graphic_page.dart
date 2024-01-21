@@ -70,6 +70,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
       maxPrice = await priceController.getMaxOneDay(ticker);
       minPrice = await priceController.getMinOneDay(ticker);
       print(maxPrice);
+      print(minPrice);
     } else if (chartType == "1 MONTH") {
       data = await priceController.getPriceOneMonth(ticker);
       maxPrice = await priceController.getMaxOneMonth(ticker);
@@ -108,15 +109,40 @@ class _GraphicsPageState extends State<GraphicsPage> {
       ),
       body: Container(
         padding:
-        const EdgeInsets.only(top: 25, left: 10, right: 10, bottom: 120),
+        const EdgeInsets.only(top: 25, left: 10, right: 10, bottom: 10),
         color: Colors.black87,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Container(
+              height: 50,
+              decoration: const BoxDecoration(gradient:LinearGradient(colors:  [Color.fromARGB(64, 46, 50, 70),Colors.black])),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.monetization_on_outlined,color: Colors.white,size: 32,),
+                  SizedBox(width: 10,),
+                  Text(
+                    "${data.last}",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      letterSpacing: 2,
+                      fontSize: 25,
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+
             Expanded(
+
               child: LineChart(
+
                 LineChartData(
-                  backgroundColor: Colors.black38,
+                  backgroundColor: Colors.black,
                   lineTouchData: const LineTouchData(),
                   gridData: FlGridData(
                     show: true,
@@ -126,7 +152,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
                     getDrawingHorizontalLine: (value) {
                       return const FlLine(
                         color: Colors.white,
-                        strokeWidth: 0,
+                        strokeWidth: 0.1,
                       );
                     },
                     getDrawingVerticalLine: (value) {
@@ -191,12 +217,12 @@ class _GraphicsPageState extends State<GraphicsPage> {
                             FlSpot(index.toDouble(), data[index].toDouble()),
                       ),
                       isCurved: true,
-                      color: Colors.grey,
+                      color: Colors.grey.shade500,
                       belowBarData: BarAreaData(
                         show: true,
                         gradient: LinearGradient(
                           colors: gradientColors
-                              .map((color) => color.withOpacity(0.4))
+                              .map((color) => color.withOpacity(0.5))
                               .toList(),
                         ),
                       ),
@@ -315,13 +341,31 @@ class _GraphicsPageState extends State<GraphicsPage> {
               ],
             ),
             const SizedBox(
-              height: 20,
+              height:
+              20,
             ),
+             Container(
+               padding: EdgeInsets.all(14),
+               decoration: BoxDecoration(gradient: LinearGradient(colors: [Colors.red,Colors.black])),
+               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Max - Min range:".toUpperCase(),style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey.shade50,
+                    letterSpacing: 3,
+                    fontSize: 20,
+                  ),),
+                ],
+                           ),
+             ),
+
+            const SizedBox(height: 20,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "CURRENT: ${data.last} \$",
+                  "\$${minPrice.first} - ",
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -329,13 +373,9 @@ class _GraphicsPageState extends State<GraphicsPage> {
                     fontSize: 20,
                   ),
                 ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+
                 Text(
-                  "MAX: ${maxPrice.last} \$",
+                  "\$${maxPrice.last}",
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -343,22 +383,11 @@ class _GraphicsPageState extends State<GraphicsPage> {
                     fontSize: 20,
                   ),
                 ),
+
+
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "MIN: ${minPrice.last} \$",
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: 2,
-                    fontSize: 20,
-                  ),
-                ),
-              ],
-            ),
+
             const SizedBox(
               height: 20,
             ),

@@ -140,7 +140,7 @@ class _RatesPageState extends State<RatesPage> {
                           hintText: "Search in market",
                           fillColor: Colors.grey.shade800,
                           filled: true,
-                          border: OutlineInputBorder(
+                          border:const OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 1, style: BorderStyle.none),
                             borderRadius:
